@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <title>SmartHome.com</title>
+    <style>
+        body {
+            
+            background: url('https://img.freepik.com/premium-photo/smart-home-living-room-with-patio-night_118124-340496.jpg') no-repeat center center fixed; /* Set your background image here */
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+            color: #ffffff; /* White text color for contrast */
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(0, 0, 0, 0.1); /* Semi-transparent background */
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
+            padding: 20px;
+        }
+
+        .top-bar-container {
+            background: rgba(0, 0, 0, 0.3); /* Semi-transparent background */
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .home-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .home-info img {
+            width: 70px;
+            height: 70px;
+            margin-right: 10px;
+            border-radius: 30%;
+        }
+
+        .title-section h1 {
+            margin: 0;
+            font-size: 24px;
+            color: #ffffff; /* White text color */
+        }
+
+        .title-section p {
+            margin: 0;
+            font-size: 18px;
+            color: #ebe7e7; /* Light gray text color */
+        }
+
+        .search-bar input {
+            padding: 8px 15px;
+            border-radius: 40px;
+            border: none;
+            background: rgba(247, 242, 242, 0.1); /* Slightly transparent background */
+            color: #ffffff; /* White text color */
+            width: 200px;
+        }
+
+        .weather {
+            display: flex;
+            align-items: center;
+            font-size: 16px;
+            color: #ffffff; /* White text color */
+        }
+
+        .weather span {
+            margin-left: 10px;
+        }
+
+        .weather-icon {
+
+          margin-right: 20%;
+
+
+}
+
+        .dashboard {
+            display: flex;
+        }
+
+        .sidebar {
+            background: rgba(0, 0, 0, 0.3); /* Semi-transparent background */
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            margin-right: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .sidebar-btn {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.2); /* Slightly transparent background */
+            border: none;
+            border-radius: 50%;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            color: #ffffff; /* White text color */
+            cursor: pointer;
+        }
+
+        .sidebar-btn.active {
+            background: rgba(124, 93, 232, 0.6); /* Semi-transparent active state */
+            color: #ffffff; /* White text color */
+        }
+
+        .main-panel {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            flex-grow: 1;
+        }
+
+        .device-card {
+            background: rgba(0, 0, 0, 0.3); /* Semi-transparent background */
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+        }
+
+        .device-card h2 {
+            margin-top: 0;
+            font-size: 18px;
+            color: #ffffff; /* White text color */
+        }
+
+        .temp-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2); /* Semi-transparent background */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 20px auto;
+        }
+
+        .temp {
+            font-size: 36px;
+            font-weight: bold;
+            color: #ffffff; /* White text color */
+        }
+
+        .status {
+            font-size: 12px;
+            color: #cccccc; /* Light gray text color */
+        }
+
+        .temp-controls, .actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .temp-btn, .action-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.2); /* Slightly transparent background */
+            color: #ffffff; /* White text color */
+            cursor: pointer;
+        }
+
+        .action-btn.active {
+            background: rgba(124, 93, 232, 0.6); /* Semi-transparent active state */
+            color: #ffffff; /* White text color */
+        }
+
+        .brightness-control, .color-control {
+            margin-top: 20px;
+        }
+
+        .brightness-slider, .color-slider, .temp-slider {
+            width: 100%;
+            -webkit-appearance: none;
+            height: 5px;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.2); /* Slightly transparent background */
+            outline: none;
+        }
+
+        .brightness-slider::-webkit-slider-thumb, .color-slider::-webkit-slider-thumb, .temp-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #7c5de8;
+            cursor: pointer;
+        }
+
+        .camera-feed img, .homepod img, .doorbell img {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .bottom-bar {
+            background: rgba(0, 0, 0, 0.3); /* Semi-transparent background */
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 10px;
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+
+      
+        .room-btn, .add-room-btn {
+            background: rgba(255, 255, 255, 0.2); /* Slightly transparent background */
+            border: none;
+            border-radius: 15px;
+            padding: 8px 15px;
+            font-size: 14px;
+            color: #ffffff; /* White text color */
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .room-btn:hover {
+            background-color: #d0d0d0;
+        }
+        .room-btn.active {
+            background-color: #262083;
+            color: white;
+        }
+        .room-btn.active:hover {
+            background-color: #2980b9;
+        }
+       
+        .add-room-btn:hover {
+            background-color: #27ae60;
+        }
+
+        
+/* Hover effect */
+.room-btn:hover {
+    background-color: #d0d0d0;
+}
+
+/* Active (clicked) state */
+.room-btn:active {
+    background-color: #3498db;
+    color: white;
+    transform: scale(0.95);
+}
+
+
+/* Hover effect for add room button */
+.add-room-btn:hover {
+    background-color: #27ae60;
+}
+
+/* Active (clicked) state for add room button */
+.add-room-btn:active {
+    background-color: #219a52;
+    transform: scale(0.95);
+}
+
+
+.video-icon {
+  width: 100%;  /* Set desired width */
+  height: 100px; /* Set desired height */
+  border-radius: 50%; /* Make it circular, if needed */
+  backdrop-filter: blur(10px);
+          
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+            
+}
+
+.icon-container {
+  display: inline-block;
+  
+  /* Add any other styling like padding, margin, etc. */
+}
+
+.search-container {
+    position: relative;
+    margin-left: 1%;
+    margin-top: 5px;
+}
+
+.search-bar {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.search-bar input {
+    width: 80%;
+    max-width: 700px;
+    padding: 10px 15px;
+    border-radius: 20px;
+    border: none;
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    font-size: 16px;
+}
+
+.search-results {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 800px;
+    background: whitesmoke;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 1000;
+}
+
+.search-results ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.search-results li {
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    color: black;
+}
+
+.search-results li:hover {
+    background-color: rgba(124, 93, 232, 0.4);
+}
+
+.search-results strong {
+    color: black;
+}
+
+
+    </style>
+</head>-
+<body id="bathroom">
+    <div class="container">
+        <main>
+            <div class="top-bar-container">
+                <div class="top-bar">
+                    <div class="home-info">
+                        <img src="https://images.thecompanycheck.com/companylogo/SIMS_HEALTH_CARE_PRIVATE_LIMITED.webp" alt="Beta SIMS Logo" class="company-logo">
+                        <div class="title-section">
+                            <h1>Sims SynergyHome</h1>
+                            <p>Optimize Energy, Enhance Comfort</p>
+                        </div>
+                    </div>
+                    <div class="search-container">
+                        <div class="search-bar">
+                            <input type="text" placeholder="Search devices...">
+                        </div>
+                        <div class="search-results">
+                            <!-- Search results will be populated here -->
+                        </div>
+                    </div>
+                        <div class="weather">
+                            <span>24°/17°</span>
+                            <span>Temperature Outside</span>
+                            <span class="weather-icon">🌤</span>
+                        </div>
+
+                        
+                    <div class="room-weather">
+                        <span id="room-temp">22°</span>
+                        <span>Room</span>
+                    </div>
+                    <div class="humidity">
+                        <span id="humidity">45%</span>
+                        <span>Humidity</span>
+                    </div>
+                   
+                </div>
+            </div>
+            <div class="dashboard">
+                <div class="sidebar">
+                    <button class="sidebar-btn active">🏠</button>
+                    <button class="sidebar-btn">🛡</button>
+                    <button class="sidebar-btn">🕒</button>
+                    <button class="sidebar-btn">⚙</button>
+                    <button class="sidebar-btn">⏻</button>
+                </div>
+                <div class="main-panel">
+                    
+                    <div class="device-card geyser" data-device="Geyser">
+                        <i class="fas fa-hot-tub device-icon" ></i>
+                        <h2>Geyser</h2>
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdsMQTUYzEOxmpDxUy_V8e8BzCuxXgaPdm38nMEu3GyvRZq-WVUsezRubKtw8NzVlrxvQ&usqp=CAU" alt="Geyser" style="width: 100%; border-radius: 10px;">
+                    </div>
+                    <div>
+                        <video autoplay loop muted playsinline width="380" height="380">
+                          <source src="c:\Users\ADMIN\Downloads\Ceiling Fan.mp4" type="video/mp4" />
+                         
+                        </video>
+                      </div>
+                </div>
+            </div>
+            <div class="bottom-bar">
+                <a href="Dashboard.html" class="room-btn" data-page="smarthome">Dashboard</a>
+                <a href="smarthome.html" class="room-btn" data-page="smarthome">Living Room</a>
+                <a href="kitchen.html" class="room-btn active" data-page="kitchen">Bathroom</a>
+              
+                <a href="garden.html" class="room-btn" data-page="garden">Garden</a>
+                <a href="utility.html" class="room-btn" data-page="utility">Utility</a>
+                <button class="add-room-btn">+</button>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Air Conditioner
+            const tempSlider = document.querySelector('.temp-slider');
+            const tempDisplay = document.querySelector('.temp');
+
+            tempSlider.addEventListener('input', (e) => {
+                tempDisplay.textContent = `${e.target.value}°`;
+            });
+
+            // Lighting
+            const brightnessSlider = document.querySelector('.brightness-slider');
+            const brightnessValue = brightnessSlider.nextElementSibling;
+
+            brightnessSlider.addEventListener('input', (e) => {
+                brightnessValue.textContent = `${e.target.value}%`;
+            });
+
+            // Color control
+            const colorSlider = document.querySelector('.color-slider');
+
+            colorSlider.addEventListener('input', (e) => {
+                const hue = e.target.value;
+                colorSlider.style.background = `linear-gradient(to right, hsl(${hue}, 100%, 50%), hsl(${(hue + 180) % 360}, 100%, 50%))`;
+            });
+
+            // Action buttons
+            const actionButtons = document.querySelectorAll('.action-btn');
+
+            actionButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    actionButtons.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                });
+            });
+
+            
+            // Room buttons
+            const roomButtons = document.querySelectorAll('.room-btn');
+
+            function setActiveButton(clickedButton = null) {
+                const currentPage = clickedButton 
+                    ? clickedButton.getAttribute('data-page') 
+                    : window.location.pathname.split('/').pop().replace('.html', '');
+
+                roomButtons.forEach(btn => {
+                    if (btn.getAttribute('data-page') === currentPage) {
+                        btn.classList.add('active');
+                    } else {
+                        btn.classList.remove('active');
+                    }
+                });
+            }
+
+            // Set active button on page load
+            setActiveButton();
+
+            // Add click event listeners to room buttons
+            roomButtons.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault(); // Prevent default link behavior
+                    setActiveButton(btn);
+                    const href = btn.getAttribute('href');
+                    // Simulate page change (in a real scenario, you'd navigate to the new page)
+                    console.log(`Navigating to ${href}`);
+                    // Uncomment the next line to actually change pages:
+                    // window.location.href = href;
+                });
+            });
+
+            // Listen for page changes (e.g., when using browser back/forward buttons)
+            window.addEventListener('popstate', () => setActiveButton());
+        });
+
+        // smart-home.js - Include this on every room page
+
+document.addEventListener('DOMContentLoaded', function() {
+    const mainPanel = document.querySelector('.mainPanel');
+    const roomButtons = document.querySelectorAll('.room-btn');
+    const currentRoom = document.body.id;
+
+    let isDragging = false;
+    let currentX;
+    let currentY;
+    let initialX;
+    let initialY;
+    let xOffset = 0;
+    let yOffset = 0;
+    let dragItem = null;
+
+    function createIcon(iconData) {
+        const icon = document.createElement('div');
+        icon.id = iconData.id;
+        icon.className = 'deviceCard';
+        icon.dataset.type = iconData.type;
+        icon.style.position = 'absolute';
+        icon.style.left = `${iconData.x}px`;
+        icon.style.top = `${iconData.y}px`;
+        icon.innerText = iconData.type; // You can customize this based on icon type
+        return icon;
+    }
+
+    function loadIcons() {
+        const icons = JSON.parse(localStorage.getItem(currentRoom) || '[]');
+        icons.forEach(iconData => {
+            const icon = createIcon(iconData);
+            mainPanel.appendChild(icon);
+        });
+        initializeDragAndDrop();
+    }
+
+    function initializeDragAndDrop() {
+        const deviceCards = document.querySelectorAll('.deviceCard');
+        deviceCards.forEach(card => {
+            card.addEventListener('mousedown', dragStart, false);
+            card.addEventListener('touchstart', dragStart, false);
+        });
+    }
+
+    function dragStart(e) {
+        if (e.type === "touchstart") {
+            initialX = e.touches[0].clientX - xOffset;
+            initialY = e.touches[0].clientY - yOffset;
+        } else {
+            initialX = e.clientX - xOffset;
+            initialY = e.clientY - yOffset;
+        }
+        dragItem = e.target;
+        dragItem.style.zIndex = 1000;
+        document.addEventListener('mousemove', drag, false);
+        document.addEventListener('touchmove', drag, false);
+        document.addEventListener('mouseup', dragEnd, false);
+        document.addEventListener('touchend', dragEnd, false);
+    }
+
+    function drag(e) {
+        if (dragItem) {
+            e.preventDefault();
+            if (e.type === "touchmove") {
+                currentX = e.touches[0].clientX - initialX;
+                currentY = e.touches[0].clientY - initialY;
+            } else {
+                currentX = e.clientX - initialX;
+                currentY = e.clientY - initialY;
+            }
+            xOffset = currentX;
+            yOffset = currentY;
+            setTranslate(currentX, currentY, dragItem);
+        }
+    }
+
+    function setTranslate(xPos, yPos, el) {
+        el.style.transform = `translate3d(${xPos}px, ${yPos}px, 0)`;
+    }
+
+    function dragEnd(e) {
+        initialX = currentX;
+        initialY = currentY;
+        const droppedOnRoom = checkDropZone(e);
+        if (droppedOnRoom && droppedOnRoom !== currentRoom) {
+            moveToRoom(dragItem, droppedOnRoom);
+        } else {
+            updateIconPosition(dragItem);
+        }
+        dragItem.style.zIndex = 1;
+        document.removeEventListener('mousemove', drag, false);
+        document.removeEventListener('touchmove', drag, false);
+        document.removeEventListener('mouseup', dragEnd, false);
+        document.removeEventListener('touchend', dragEnd, false);
+        dragItem = null;
+    }
+
+    function checkDropZone(e) {
+        const mouseX = e.clientX || e.changedTouches[0].clientX;
+        const mouseY = e.clientY || e.changedTouches[0].clientY;
+        for (const button of roomButtons) {
+            const rect = button.getBoundingClientRect();
+            if (mouseX >= rect.left && mouseX <= rect.right &&
+                mouseY >= rect.top && mouseY <= rect.bottom) {
+                return button.dataset.page;
+            }
+        }
+        return null;
+    }
+
+    function moveToRoom(icon, roomPage) {
+        const iconData = {
+            id: icon.id,
+            type: icon.dataset.type,
+            x: icon.offsetLeft,
+            y: icon.offsetTop
+        };
+        let roomIcons = JSON.parse(localStorage.getItem(roomPage) || '[]');
+        roomIcons.push(iconData);
+        localStorage.setItem(roomPage, JSON.stringify(roomIcons));
+
+        let currentRoomIcons = JSON.parse(localStorage.getItem(currentRoom) || '[]');
+        currentRoomIcons = currentRoomIcons.filter(item => item.id !== icon.id);
+        localStorage.setItem(currentRoom, JSON.stringify(currentRoomIcons));
+
+        icon.remove();
+        window.location.href = roomPage + '.html';
+    }
+
+    function updateIconPosition(icon) {
+        let roomIcons = JSON.parse(localStorage.getItem(currentRoom) || '[]');
+        const iconIndex = roomIcons.findIndex(item => item.id === icon.id);
+        if (iconIndex !== -1) {
+            roomIcons[iconIndex].x = icon.offsetLeft;
+            roomIcons[iconIndex].y = icon.offsetTop;
+        } else {
+            roomIcons.push({
+                id: icon.id,
+                type: icon.dataset.type,
+                x: icon.offsetLeft,
+                y: icon.offsetTop
+            });
+        }
+        localStorage.setItem(currentRoom, JSON.stringify(roomIcons));
+    }
+
+    loadIcons();
+});
+        
+ // Search functionality
+ const searchInput = document.querySelector('.search-bar input');
+ const searchResultsContainer = document.querySelector('.search-results');
+
+    // Room and device data (as shown above)
+    const roomsAndDevices = [
+    { 
+        id: 1, 
+        name: "Living Room", 
+        devices: [
+            { name: "Fans", url: "C:/Users/ADMIN/Desktop/gud/smarthome.html" },
+            { name: "Smart Lights", url: "C:/Users/ADMIN/Desktop/gud/smarthome.html" },
+            { name: "AC", url: "C:/Users/ADMIN/Desktop/gud/smarthome.html" },
+            { name: "Smart Tv", url: "C:/Users/ADMIN/Desktop/gud/smarthome.html" },
+        ]
+    },
+    { 
+        id: 2, 
+        name: "Bathroom", 
+        devices: [
+            { name: "Geyser", url: "file:///C:/Users/ADMIN/Desktop/gud/kitchen.html" },
+            { name: "Smart Speaker", url: "file:///C:/Users/ADMIN/Desktop/gud/kitchen.html" }
+        ]
+    },
+    { 
+        id: 3, 
+        name: "Garden", 
+        devices: [
+            { name: "Drip Irrigation", url: "file:///C:/Users/ADMIN/Desktop/gud/garden.html" },
+            { name: "Smart Sprinkler", url: "file:///C:/Users/ADMIN/Desktop/gud/garden.html" },
+            { name: "Terrace Garden",     url: "file:///C:/Users/ADMIN/Desktop/gud/garden.html" }
+        ]
+    },
+    { 
+        id: 4, 
+        name: "Utility", 
+        devices: [
+            { name: "Water Tank", url: "file:///C:/Users/ADMIN/Desktop/gud/utility.html" },
+            { name: "Water Motor", url: "file:///C:/Users/ADMIN/Desktop/gud/utility.html" },
+            { name: "Water sumps", url: "file:///C:/Users/ADMIN/Desktop/gud/utility.html" },
+            { name: "RainWater Harvesting", url: "file:///C:/Users/ADMIN/Desktop/gud/utility.html" },
+            { name: "High Voltage Management", url: "file:///C:/Users/ADMIN/Desktop/gud/utility.html" }
+        ]
+    },
+];
+
+    searchInput.addEventListener('input', handleSearch);
+    searchInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            const firstResult = searchResultsContainer.querySelector('li');
+            if (firstResult) {
+                firstResult.click();
+            }
+        }
+    });
+
+    function handleSearch() {
+        const searchTerm = searchInput.value.toLowerCase().trim();
+        if (searchTerm.length === 0) {
+            searchResultsContainer.innerHTML = '';
+            return;
+        }
+
+        const results = searchDevices(searchTerm);
+        displayResults(results);
+    }
+
+    // Include the updated searchDevices, displayResults, and navigateToDevice functions here
+
+
+
+    function searchDevices(searchTerm) {
+    const results = [];
+    roomsAndDevices.forEach(room => {
+        const matchedDevices = room.devices.filter(device => 
+            device.name.toLowerCase().includes(searchTerm)
+        );
+        if (matchedDevices.length > 0) {
+            results.push({
+                room: room.name,
+                devices: matchedDevices
+            });
+        }
+    });
+    return results;
+}
+
+function displayResults(results) {
+    searchResultsContainer.innerHTML = '';
+    if (results.length === 0) {
+        searchResultsContainer.innerHTML = '<p>No devices found</p>';
+        return;
+    }
+
+    const ul = document.createElement('ul');
+    results.forEach(result => {
+        result.devices.forEach(device => {
+            const li = document.createElement('li');
+            li.innerHTML = `<strong>${device.name}</strong> in ${result.room}`;
+            li.addEventListener('click', () => {
+                navigateToDevice(device.url);
+            });
+            ul.appendChild(li);
+        });
+    });
+
+    searchResultsContainer.appendChild(ul);
+}
+
+function navigateToDevice(url) {
+    console.log(`Navigating to ${url}`);
+    window.location.href = url;
+}
+
+
+
+    // Room button functionality
+    const roomButtons = document.querySelectorAll('.room-btn');
+    roomButtons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault(); // Prevent default link behavior
+            const href = btn.getAttribute('href');
+            window.location.href = href;
+        });
+    });
+
+    </script>
+</body>
+</html>

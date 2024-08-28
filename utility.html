@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <title>SmartHome.com</title>
+    <style>
+         body {
+            font-family: Arial, sans-serif;
+            background: url('https://img.freepik.com/premium-photo/smart-home-living-room-with-patio-night_118124-340496.jpg') no-repeat center center fixed; /* Set your background image here */
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+            color: #ffffff; /* White text color for contrast */
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(0, 0, 0, 0.1); /* Semi-transparent background */
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
+            padding: 20px;
+        }
+
+        .top-bar-container {
+            background: rgba(0, 0, 0, 0.3); /* Semi-transparent background */
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .home-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .home-info img {
+            width: 70px;
+            height: 70px;
+            margin-right: 10px;
+            border-radius: 30%;
+        }
+
+        .title-section h1 {
+            margin: 0;
+            font-size: 24px;
+            color: #ffffff; /* White text color */
+        }
+
+        .title-section p {
+            margin: 0;
+            font-size: 18px;
+            color: #ebe7e7; /* Light gray text color */
+        }
+
+        .search-bar input {
+            padding: 8px 15px;
+            border-radius: 40px;
+            border: none;
+            background: rgba(247, 242, 242, 0.1); /* Slightly transparent background */
+            color: #ffffff; /* White text color */
+            width: 200px;
+        }
+
+        .weather {
+            display: flex;
+            align-items: center;
+            font-size: 16px;
+            color: #ffffff; /* White text color */
+        }
+
+        .weather span {
+            margin-left: 10px;
+        }
+
+        .dashboard {
+            display: flex;
+        }
+
+        .sidebar {
+            background: rgba(0, 0, 0, 0.3); /* Semi-transparent background */
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            margin-right: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .sidebar-btn {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.2); /* Slightly transparent background */
+            border: none;
+            border-radius: 50%;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            color: #ffffff; /* White text color */
+            cursor: pointer;
+        }
+
+        .sidebar-btn.active {
+            background: rgba(124, 93, 232, 0.6); /* Semi-transparent active state */
+            color: #ffffff; /* White text color */
+        }
+
+        .main-panel {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            flex-grow: 1;
+        }
+
+        .device-card {
+            background: rgba(0, 0, 0, 0.3); /* Semi-transparent background */
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+        }
+
+        .device-card h2 {
+            margin-top: 0;
+            font-size: 18px;
+            color: #ffffff; /* White text color */
+        }
+
+        .temp-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2); /* Semi-transparent background */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 20px auto;
+        }
+
+        .temp {
+            font-size: 36px;
+            font-weight: bold;
+            color: #ffffff; /* White text color */
+        }
+
+        .status {
+            font-size: 12px;
+            color: #cccccc; /* Light gray text color */
+        }
+
+        .temp-controls, .actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .temp-btn, .action-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.2); /* Slightly transparent background */
+            color: #ffffff; /* White text color */
+            cursor: pointer;
+        }
+
+        .action-btn.active {
+            background: rgba(124, 93, 232, 0.6); /* Semi-transparent active state */
+            color: #ffffff; /* White text color */
+        }
+
+        .brightness-control, .color-control {
+            margin-top: 20px;
+        }
+
+        .brightness-slider, .color-slider, .temp-slider {
+            width: 100%;
+            -webkit-appearance: none;
+            height: 5px;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.2); /* Slightly transparent background */
+            outline: none;
+        }
+
+        .brightness-slider::-webkit-slider-thumb, .color-slider::-webkit-slider-thumb, .temp-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #7c5de8;
+            cursor: pointer;
+        }
+
+        .camera-feed img, .homepod img, .doorbell img {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .bottom-bar {
+            background: rgba(0, 0, 0, 0.3); /* Semi-transparent background */
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 10px;
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+
+      
+        .room-btn, .add-room-btn {
+            background: rgba(255, 255, 255, 0.2); /* Slightly transparent background */
+            border: none;
+            border-radius: 15px;
+            padding: 8px 15px;
+            font-size: 14px;
+            color: #ffffff; /* White text color */
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .room-btn:hover {
+            background-color: #d0d0d0;
+        }
+        .room-btn.active {
+            background-color: #262083;
+            color: white;
+        }
+        .room-btn.active:hover {
+            background-color: #2980b9;
+        }
+       
+        .add-room-btn:hover {
+            background-color: #27ae60;
+        }
+
+        
+/* Hover effect */
+.room-btn:hover {
+    background-color: #d0d0d0;
+}
+
+/* Active (clicked) state */
+.room-btn:active {
+    background-color: #3498db;
+    color: white;
+    transform: scale(0.95);
+}
+
+
+/* Hover effect for add room button */
+.add-room-btn:hover {
+    background-color: #27ae60;
+}
+
+/* Active (clicked) state for add room button */
+.add-room-btn:active {
+    background-color: #219a52;
+    transform: scale(0.95);
+}
+
+
+.search-bar {
+    position: relative;
+}
+
+.search-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #333;
+    border-top: none;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000;
+    color: #333;
+}
+
+.search-results ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.search-results li {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.search-results li:hover {
+    background-color: #f0f0f0;
+}
+
+    </style>
+</head>
+<body id="utility">
+    <div class="container">
+        <main>
+            <div class="top-bar-container">
+                <div class="top-bar">
+                    <div class="home-info">
+                        <img src="https://images.thecompanycheck.com/companylogo/SIMS_HEALTH_CARE_PRIVATE_LIMITED.webp" alt="Beta SIMS Logo" class="company-logo">
+                        <div class="title-section">
+                            <h1>Sims SynergyHome</h1>
+                            <p>Optimize Energy, Enhance Comfort</p>
+                        </div>
+                    </div>
+                    <div class="search-bar">
+                        <input type="text" placeholder="Video Doorbell...">
+                    </div>
+                    <div class="weather">
+                        <span>24°/17°</span>
+                        <span>Temperature Outside</span>
+                        <span class="weather-icon">🌤</span>
+                    </div>
+                </div>
+            </div>
+            <div class="dashboard">
+                <div class="sidebar">
+                    <button class="sidebar-btn active">🏠</button>
+                    <button class="sidebar-btn">🛡️</button>
+                    <button class="sidebar-btn">🕒</button>
+                    <button class="sidebar-btn">⚙️</button>
+                    <button class="sidebar-btn">⏻</button>
+                </div>
+               
+                <div class="main-panel">
+                    <div class="device-card tank" data-device="water Tanks">
+                        <i class="fas fa-water device-icon" ></i>
+                        <h2>Water Tanks</h2>
+                        <img src="https://via.placeholder.com/300x200" alt="Water Tank" class="device-image">
+                        <div class="actions">
+                            <button class="action-btn">Check Level</button>
+                            <button class="action-btn">Refill</button>
+                        </div>
+                    </div>
+                    <div class="device-card sump" data-device="water sumps">
+                        <i class="fas fa-tint device-icon" ></i>
+                        <h2>Water Sumps</h2>
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQjff3E2Q-agB3QNjHTSQHgwpXTBftS4bjMA&s" alt="Water Sump" class="device-image">
+                        <div class="actions">
+                            <button class="action-btn">Check Level</button>
+                            <button class="action-btn">Drain</button>
+                        </div>
+                    </div>
+                    <div class="device-card motor" data-device="water motors">
+                        <i class="fas fa-pump-soap device-icon" ></i>
+                        <h2>Water Motor</h2>
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQj-PGMTFxzHRhl5mmHaqCv9Ut5Alligb77qw&s" alt="Water Motor" class="device-image">
+                        <div class="actions">
+                            <button class="action-btn">Turn On</button>
+                            <button class="action-btn">Turn Off</button>
+                        </div>
+                    </div>
+
+
+                    <div class="device-card rainwater" data-device="Rainwater Harvesting">
+                        <i class="fas fa-cloud-rain device-icon" ></i>
+                        <h2>Rainwater Harvesting</h2>
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSkzJF1C4GxbmIdHbxuuLtVnHJrIARQrBJdjFxBGHOTHXNmQgJ9h7S2dOvCdWdXGhTAF8&usqp=CAU" alt="Rainwater Harvesting" class="device-image">
+                        <div class="actions">
+                            <button class="action-btn">Check Status</button>
+                            <button class="action-btn">Maintenance</button>
+                        </div>
+                    </div>
+                    <div class="device-card voltage" data-device="High Voltage Management">
+                        <i class="fas fa-bolt device-icon" ></i>
+                        <h2>High Voltage Management</h2>
+                        <img src="data:image/jpeg;base64,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" alt="High Voltage Control" class="device-image">
+                        <div class="actions">
+                            <button class="action-btn">Monitor</button>
+                            <button class="action-btn">Adjust</button>
+                        </div>
+                    </div>
+                </div>
+ 
+
+            </div>
+            <div class="bottom-bar">
+                <a href="Dashboard.html" class="room-btn" data-page="smarthome">Dashboard</a>
+                <a href="smarthome.html" class="room-btn" data-page="smarthome">Living Room</a>
+                <a href="kitchen.html" class="room-btn" data-page="kitchen">Bathroom</a>
+              
+                <a href="garden.html" class="room-btn" data-page="garden">Garden</a>
+                <a href="utility.html" class="room-btn active" data-page="utility">Utility</a>
+                <button class="add-room-btn">+</button>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Air Conditioner
+            const tempSlider = document.querySelector('.temp-slider');
+            const tempDisplay = document.querySelector('.temp');
+
+            tempSlider.addEventListener('input', (e) => {
+                tempDisplay.textContent = `${e.target.value}°`;
+            });
+
+            // Lighting
+            const brightnessSlider = document.querySelector('.brightness-slider');
+            const brightnessValue = brightnessSlider.nextElementSibling;
+
+            brightnessSlider.addEventListener('input', (e) => {
+                brightnessValue.textContent = `${e.target.value}%`;
+            });
+
+            // Color control
+            const colorSlider = document.querySelector('.color-slider');
+
+            colorSlider.addEventListener('input', (e) => {
+                const hue = e.target.value;
+                colorSlider.style.background = `linear-gradient(to right, hsl(${hue}, 100%, 50%), hsl(${(hue + 180) % 360}, 100%, 50%))`;
+            });
+
+            // Action buttons
+            const actionButtons = document.querySelectorAll('.action-btn');
+
+            actionButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    actionButtons.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                });
+            });
+
+            // Room buttons
+            const roomButtons = document.querySelectorAll('.room-btn');
+
+            function setActiveButton(clickedButton = null) {
+                const currentPage = clickedButton 
+                    ? clickedButton.getAttribute('data-page') 
+                    : window.location.pathname.split('/').pop().replace('.html', '');
+
+                roomButtons.forEach(btn => {
+                    if (btn.getAttribute('data-page') === currentPage) {
+                        btn.classList.add('active');
+                    } else {
+                        btn.classList.remove('active');
+                    }
+                });
+            }
+
+            // Set active button on page load
+            setActiveButton();
+
+            // Add click event listeners to room buttons
+            roomButtons.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault(); // Prevent default link behavior
+                    setActiveButton(btn);
+                    const href = btn.getAttribute('href');
+                    // Simulate page change (in a real scenario, you'd navigate to the new page)
+                    console.log(`Navigating to ${href}`);
+                    // Uncomment the next line to actually change pages:
+                    // window.location.href = href;
+                });
+            });
+
+            // Listen for page changes (e.g., when using browser back/forward buttons)
+            window.addEventListener('popstate', () => setActiveButton());
+        });
+
+     // Search functionality
+ const searchInput = document.querySelector('.search-bar input');
+    const searchResultsContainer = document.createElement('div');
+    searchResultsContainer.className = 'search-results';
+    searchInput.parentNode.appendChild(searchResultsContainer);
+
+    // Room and device data (as shown above)
+    const roomsAndDevices = [
+    { 
+        id: 1, 
+        name: "Living Room", 
+        devices: [
+            { name: "Fans", url: "C:/Users/ADMIN/Desktop/gud/smarthome.html" },
+            { name: "Smart Lights", url: "C:/Users/ADMIN/Desktop/gud/smarthome.html" },
+            { name: "AC", url: "C:/Users/ADMIN/Desktop/gud/smarthome.html" },
+            { name: "Smart Tv", url: "C:/Users/ADMIN/Desktop/gud/smarthome.html" },
+        ]
+    },
+    { 
+        id: 2, 
+        name: "Bathroom", 
+        devices: [
+            { name: "Geyser", url: "file:///C:/Users/ADMIN/Desktop/gud/kitchen.html" },
+            { name: "Smart Speaker", url: "file:///C:/Users/ADMIN/Desktop/gud/kitchen.html" }
+        ]
+    },
+    { 
+        id: 3, 
+        name: "Garden", 
+        devices: [
+            { name: "Drip Irrigation", url: "file:///C:/Users/ADMIN/Desktop/gud/garden.html" },
+            { name: "Smart Sprinkler", url: "file:///C:/Users/ADMIN/Desktop/gud/garden.html" },
+            { name: "Terrace Garden",     url: "file:///C:/Users/ADMIN/Desktop/gud/garden.html" }
+        ]
+    },
+    { 
+        id: 4, 
+        name: "Utility", 
+        devices: [
+            { name: "Water Tank", url: "file:///C:/Users/ADMIN/Desktop/gud/utility.html" },
+            { name: "Water Motor", url: "file:///C:/Users/ADMIN/Desktop/gud/utility.html" },
+            { name: "Water sumps", url: "file:///C:/Users/ADMIN/Desktop/gud/utility.html" },
+            { name: "RainWater Harvesting", url: "file:///C:/Users/ADMIN/Desktop/gud/utility.html" },
+            { name: "High Voltage Management", url: "file:///C:/Users/ADMIN/Desktop/gud/utility.html" }
+        ]
+    },
+];
+
+    searchInput.addEventListener('input', handleSearch);
+    searchInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            const firstResult = searchResultsContainer.querySelector('li');
+            if (firstResult) {
+                firstResult.click();
+            }
+        }
+    });
+
+    function handleSearch() {
+        const searchTerm = searchInput.value.toLowerCase().trim();
+        if (searchTerm.length === 0) {
+            searchResultsContainer.innerHTML = '';
+            return;
+        }
+
+        const results = searchDevices(searchTerm);
+        displayResults(results);
+    }
+
+    // Include the updated searchDevices, displayResults, and navigateToDevice functions here
+
+
+
+    function searchDevices(searchTerm) {
+    const results = [];
+    roomsAndDevices.forEach(room => {
+        const matchedDevices = room.devices.filter(device => 
+            device.name.toLowerCase().includes(searchTerm)
+        );
+        if (matchedDevices.length > 0) {
+            results.push({
+                room: room.name,
+                devices: matchedDevices
+            });
+        }
+    });
+    return results;
+}
+
+function displayResults(results) {
+    searchResultsContainer.innerHTML = '';
+    if (results.length === 0) {
+        searchResultsContainer.innerHTML = '<p>No devices found</p>';
+        return;
+    }
+
+    const ul = document.createElement('ul');
+    results.forEach(result => {
+        result.devices.forEach(device => {
+            const li = document.createElement('li');
+            li.innerHTML = `<strong>${device.name}</strong> in ${result.room}`;
+            li.addEventListener('click', () => {
+                navigateToDevice(device.url);
+            });
+            ul.appendChild(li);
+        });
+    });
+
+    searchResultsContainer.appendChild(ul);
+}
+
+function navigateToDevice(url) {
+    console.log(`Navigating to ${url}`);
+    window.location.href = url;
+}
+
+
+
+    // Room button functionality
+    const roomButtons = document.querySelectorAll('.room-btn');
+    roomButtons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault(); // Prevent default link behavior
+            const href = btn.getAttribute('href');
+            window.location.href = href;
+        });
+    });
+
+
+    </script>
+</body>
+</html>
+
